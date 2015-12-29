@@ -16,12 +16,12 @@ import org.springframework.stereotype.Component;
 class SimpleCorsFilter extends Filter {
   
   override def doFilter(req : ServletRequest, res : ServletResponse, chain : FilterChain) {
-    val response = res.asInstanceOf[HttpServletResponse];
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-		response.setHeader("Access-Control-Max-Age", "3600");
-		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		chain.doFilter(req, res);   
+    val response = res.asInstanceOf[HttpServletResponse]
+	  response.setHeader("Access-Control-Allow-Origin", "*")
+    response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+	  response.setHeader("Access-Control-Max-Age", "3600")
+    response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+	  chain.doFilter(req, res)
   }
   
   override def init(filterConfig : FilterConfig) {}
