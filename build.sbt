@@ -2,29 +2,31 @@ import AssemblyKeys._
 
 assemblySettings
 
-scalaVersion := "2.11.7"
-
-resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
-
-libraryDependencies += "org.json4s" %% "json4s-native" % "3.2.11" withSources() withJavadoc()
-libraryDependencies += "org.json4s" %% "json4s-jackson" % "3.2.11" withSources() withJavadoc()
-libraryDependencies += "fi.ukkosnetti" % "lchessrulz" % "1.0.0"
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" withSources() withJavadoc()
-
-libraryDependencies ++= {
-  val akkaV = "2.3.9"
-  val sprayV = "1.3.3"
-  Seq(
-    "io.spray"            %%  "spray-can"     % sprayV,
-    "io.spray"            %%  "spray-routing" % sprayV,
-    "io.spray"            %%  "spray-testkit" % sprayV  % "test",
-    "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
-    "com.typesafe.akka"   %%  "akka-testkit"  % akkaV   % "test"
-  )
-}
-
 name := "SparringChess"
 
 version := "0.1"
 
-Revolver.settings
+scalaVersion := "2.11.7"
+
+sbtVersion := "0.13.1"
+
+resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
+
+seq(webSettings : _*)
+
+libraryDependencies += "fi.ukkosnetti" % "lchessrulz" % "1.0.0"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" withSources() withJavadoc()
+
+libraryDependencies ++= Seq(
+  "org.springframework.boot" % "spring-boot-starter-web" % "1.2.7.RELEASE",
+  "org.webjars" % "bootstrap" % "3.1.1",
+  "org.springframework.boot" % "spring-boot-starter-tomcat" % "1.2.7.RELEASE" % "provided",
+  "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided"
+)
+
+
+libraryDependencies ++= Seq(
+  "org.apache.tomcat.embed" % "tomcat-embed-core"         % "8.0.28" % "container",
+  "org.apache.tomcat.embed" % "tomcat-embed-logging-juli" % "8.0.28" % "container",
+  "org.apache.tomcat.embed" % "tomcat-embed-jasper"       % "8.0.28" % "container"
+)

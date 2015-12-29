@@ -7,7 +7,7 @@ import fi.ukkosnetti.chess.rules.piece.Piece
 
 class AI {
   
-  private val calculationDepth = 3
+  private val calculationDepth = 2
   
   def getAIMove(board: Board): Board = {
     if (board.turnOfWhite) {
