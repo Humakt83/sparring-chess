@@ -19,7 +19,7 @@ class AI {
   
   def evaluateBoard(board: Board): Int = {
     (MoveUtil.getPieces(board, true).toList ++ (MoveUtil.getPieces(board, false)).toList)
-      .map(_.getEvaluationValue).sum
+      .map(_.getEvaluationValue(board)).sum
   }
   
   private def calculateScoreForMove(board: Board): BoardWithScore = {

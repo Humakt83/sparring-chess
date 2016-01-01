@@ -14,7 +14,7 @@ resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/
 
 seq(webSettings : _*)
 
-libraryDependencies += "fi.ukkosnetti" % "lchessrulz" % "1.0.0"
+libraryDependencies += "fi.ukkosnetti" % "lchessrulz" % "1.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" withSources() withJavadoc()
 
 libraryDependencies ++= Seq(
