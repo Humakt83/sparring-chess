@@ -1,22 +1,10 @@
 package fi.ukkosnetti.chess.ai
 
 import fi.ukkosnetti.chess.dto.Board
+import fi.ukkosnetti.chess.test.util.BoardTestUtil
 import org.scalatest._
 
 class AISpec extends FlatSpec with Matchers {
-  
-  def startingBoard : Array[Array[Integer]] = {
-    val board = Array.ofDim[Integer](8,8)
-    board(0) = Array(-4,-2,-3,-5,-6,-3,-2,-4)
-    board(1) = Array(-1,-1,-1,-1,-1,-1,-1,-1)
-    board(2) = Array(0,0,0,0,0,0,0,0)
-    board(3) = Array(0,0,0,0,0,0,0,0)
-    board(4) = Array(0,0,0,0,0,0,0,0)
-    board(5) = Array(0,0,0,0,0,0,0,0)
-    board(6) = Array(1,1,1,1,1,1,1,1)
-    board(7) = Array(4,2,3,5,6,3,2,4)
-    board
-  }
   
   def gameAlmostOverBoard : Array[Array[Integer]] = {
     val board = Array.ofDim[Integer](8,8)
@@ -32,7 +20,7 @@ class AISpec extends FlatSpec with Matchers {
   }
   
   "Evaluated board " should " equal 0 for starting positions" in {
-    val board = new Board(startingBoard, true)
+    val board = new Board(BoardTestUtil.createStartingBoard(), true)
     val ai = new AI()
     ai.evaluateBoard(board) should be (0)
   }
@@ -44,7 +32,7 @@ class AISpec extends FlatSpec with Matchers {
   }
   
   it should "play" in {
-    var board = new Board(startingBoard, true)
+    var board = new Board(BoardTestUtil.createStartingBoard(), true)
     val ai = new AI()
     board = ai.getAIMove(board)
     assert(board.turnOfWhite == false)
