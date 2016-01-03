@@ -19,12 +19,6 @@ class AISpec extends FlatSpec with Matchers {
     board
   }
   
-  "Evaluated board " should " equal 0 for starting positions" in {
-    val board = new Board(BoardTestUtil.createStartingBoard(), true)
-    val ai = new AI()
-    ai.evaluateBoard(board) should be (0)
-  }
-  
   it should "do a checkmate" in {
     val board = new Board(gameAlmostOverBoard, false)
     val ai = new AI()

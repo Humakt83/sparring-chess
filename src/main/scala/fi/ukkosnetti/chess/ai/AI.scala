@@ -1,6 +1,7 @@
 package fi.ukkosnetti.chess.ai
 
 import scala.collection.JavaConversions._
+import scala.util.Random
 import fi.ukkosnetti.chess.dto.Board
 import fi.ukkosnetti.chess.rules.MoveUtil
 import fi.ukkosnetti.chess.rules.piece.Piece
@@ -8,28 +9,34 @@ import fi.ukkosnetti.chess.rules.piece.Piece
 class AI {
   
   private val calculationDepth = 2
+  private val evaluator = new BoardEvaluator
   
   def getAIMove(board: Board): Board = {
+    val moves = getMoves(board).map(calculateScoreForMove(_))
+    var score = 0l
     if (board.turnOfWhite) {
-      getMoves(board).map(calculateScoreForMove(_)).maxBy(_.score).board
+      score = moves.maxBy(_.getEvaluatedValue).getEvaluatedValue()
     } else {
-      getMoves(board).map(calculateScoreForMove(_)).minBy(_.score).board
+      score = moves.minBy(_.getEvaluatedValue).getEvaluatedValue()
     }
+    pickRandomMoveFromBest(moves, score)
   }
   
-  def evaluateBoard(board: Board): Int = {
-    (MoveUtil.getPieces(board, true).toList ++ (MoveUtil.getPieces(board, false)).toList)
-      .map(_.getEvaluationValue(board)).sum
+  private def pickRandomMoveFromBest(moves : List[Board], valueToLook : Long): Board = {
+    val random = new Random(System.currentTimeMillis())
+    val filteredMoves = moves.filter(_.getEvaluatedValue == valueToLook)
+    filteredMoves.apply(random.nextInt(filteredMoves.size))
   }
   
-  private def calculateScoreForMove(board: Board): BoardWithScore = {
-    new BoardWithScore(board, getScoreForMove(board, calculationDepth))
+  private def calculateScoreForMove(board: Board): Board = {
+    board.setEvaluatedValue(getScoreForMove(board, calculationDepth));
+    board
   }
   
-  private def getScoreForMove(board: Board, depthLeft : Int): Int = {
+  private def getScoreForMove(board: Board, depthLeft : Int): Long = {
     val turnOfWhite = board.turnOfWhite
     if (depthLeft < 1) {
-      evaluateBoard(board)
+      evaluator.evaluateBoard(board)
     } else if (turnOfWhite) {
       getMoves(board)
         .map(getScoreForMove(_, depthLeft - 1))
@@ -48,5 +55,3 @@ class AI {
   }
   
 }
-
-class BoardWithScore(val board: Board, val score : Int)
