@@ -1,6 +1,6 @@
 package fi.ukkosnetti.chess.ai
 
-import scala.collection.JavaConversions._
+import scala.jdk.CollectionConverters._
 import scala.util.Random
 import fi.ukkosnetti.chess.dto.Board
 import fi.ukkosnetti.chess.rules.MoveUtil
@@ -49,9 +49,9 @@ class AI {
   }
   
   private def getMoves(board: Board): List[Board] = {
-    MoveUtil.getPieces(board, board.turnOfWhite).toList
-      .map(_.getMoves(board))
-      .flatten.toList
+    MoveUtil.getPieces(board, board.turnOfWhite).asScala.toList
+      .map(_.getMoves(board)).map(_.asScala.toList)
+      .flatten
   }
   
 }

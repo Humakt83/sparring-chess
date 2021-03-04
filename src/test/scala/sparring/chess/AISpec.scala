@@ -2,9 +2,12 @@ package fi.ukkosnetti.chess.ai
 
 import fi.ukkosnetti.chess.dto.Board
 import fi.ukkosnetti.chess.test.util.BoardTestUtil
-import org.scalatest._
+import org.scalatestplus.junit.JUnitRunner
+import org.junit.runner.RunWith
+import org.scalatest.funsuite.AnyFunSuite
 
-class AISpec extends FlatSpec with Matchers {
+@RunWith(classOf[JUnitRunner])
+class AISpec extends AnyFunSuite {
   
   def gameAlmostOverBoard : Array[Array[Integer]] = {
     val board = Array.ofDim[Integer](8,8)
@@ -19,13 +22,13 @@ class AISpec extends FlatSpec with Matchers {
     board
   }
   
-  it should "do a checkmate" in {
+  test("should do a checkmate") {
     val board = new Board(gameAlmostOverBoard, false)
     val ai = new AI()
-    ai.getAIMove(board).board(4)(7) should be (-5)
+    assert(ai.getAIMove(board).board(4)(7) == -5)
   }
   
-  it should "play" in {
+  test("should play") {
     var board = new Board(BoardTestUtil.createStartingBoard(), true)
     val ai = new AI()
     board = ai.getAIMove(board)
